@@ -1,0 +1,28 @@
+#mapa{
+    display: grid;
+    grid-template-columns: repeat(20, 20px);
+    gap: 0;
+}
+
+.tile {
+    width: 20px;
+    height: 20px;
+}
+
+.wall{
+    color: black;
+}
+
+.path{
+    color: white;
+}
+
+body {
+    background-color: lightgrey; 
+}
+
+h1 {
+    color: blue;
+}
+
+
