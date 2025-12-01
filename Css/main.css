@@ -1,3 +1,63 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body{
+    background: url("../Imagenes/Pacman-fondo.gif") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#container_menu {
+    background-color: rgba(0,0,0, 0.7);
+    border: 4px solid blue;
+    width: 100%;
+    max-width: 500px;
+    height: 100vh;    
+    margin: 0 auto;       /* Centra horizontalmente */
+    padding: 20px;        /* Espaciado interno opcional */
+    display: flex;     
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;   /* Elementos colocados en forma de columna */
+    gap: 15px;                /* Separación entre elementos */
+    align-items: center;
+}
+
+.titulo_juego {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 20px; /* Espacio entre título y container */
+    font-size: 32px;
+    font-weight: 700;
+    color: yellow; /* Cambia según tu fondo */
+}
+
+.boton_juego{
+    background-color: #000000;
+    color: white;
+    padding: 12px 20px;
+    border: 3px solid green;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.boton_instrucciones{
+    background-color: #000000;
+    color: white;
+    padding: 12px 20px;
+    border: 3px solid green;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+}
+
 #mapa{
     display: grid; 
     gap: 0; /* espacio entre casillas */
@@ -14,14 +74,6 @@
 
 .path{ /*camino*/
     background-color: black;
-}
-
-body {
-    background-color: lightgrey; 
-}
-
-h1 {
-    color: blue;
 }
 
 
