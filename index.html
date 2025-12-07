@@ -18,21 +18,18 @@
             <button id="boton_juego" class="boton_juego"> Jugar</button>
             <button id="boton_instrucciones" class="boton_instrucciones"> Instrucciones</button>
         </div>
-
     </div>
 
-    <div id="Juego">
+    <div id="Juego", style="display: none">
         <div id="container_juego">
-            
+            <canvas id="gameCanvas" width="480" height="480">
+                Tu navegador no soporta Canvas de HTML5. Por favor actualízalo.
+            </canvas>
         </div>
     </div>
-
-    <div id="mapa"> </div> <!-- mapa -->
-    <input type="file" id="fileInput" accept=".txt"> <!-- archivo entrada -->
-    
-    <script src="main.js"> </script> <!-- Main js-->
     <script src="setup.js"> </script> <!-- setup js-->
-    <script src="navegacion.js"> </script> <!-- Navegacion-->>
+    <script src="main.js"> </script> <!-- Main js-->
+    <script src="navegacion.js"> </script> <!-- Navegacion-->
 
 </body>
 

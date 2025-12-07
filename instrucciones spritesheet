@@ -1,0 +1,44 @@
+0:  {x: 0, y: 0}, ////No caminable
+1:  {x: 2, y: 3}, ////Norte
+2:  {x: 0, y: 3}, ////Oeste
+3:  {x: 2, y: 2}, ////Norte-Oeste
+4:  {x: 3, y: 3}, ////Este
+5:  {x: 3, y: 2}, ////Norte-Este
+6:  {x: 3, y: 0}, ////Oeste-Este
+7:  {x: 2, y: 1}, ////Norte-Oeste-Este
+8:  {x: 1, y: 3}, ////Sur
+9:  {x: 2, y: 0}, ////Norte-Sur
+10: {x: 0, y: 2}, ////Oeste-Sur
+11: {x: 0, y: 1}, ////Norte-Oeste-Sur
+12: {x: 1, y: 2}, ////Este-Sur
+13: {x: 3, y: 1}, ////Norte-Este-Sur
+14: {x: 1, y: 1}, ////Oeste-Este-Sur
+15: {x: 1, y: 0}, ////Norte-Oeste-Este-Sur
+
+Valor: (coordenada spritesheet) Direcciones
+
+Cómo formar valores:
+
+Norte = 1
+Oeste = 2
+Este = 4
+Sur = 8
+
+Suma los valores de las componentes (ej: Norte-Sur = 1+8)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
