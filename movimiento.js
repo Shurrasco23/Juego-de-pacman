@@ -1,35 +1,44 @@
+/* estructura basica para el movimiento de Pacman */
+
 const pacman = {
     x: 32,
     y: 32,
-    speed: 2,
-    running: false
-};
+    speed: 4,
+    direction: null
+}; /* Posision y velocidad inicial de Pacman, con direccion nula */
+
+const keys = {};
+
+/* Escuchar eventos de teclado */
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowUp') {
+        pacman.direction = 'up';
+    } else if (event.key === 'ArrowDown') {
+        pacman.direction = 'down';
+    } else if (event.key === 'ArrowLeft') {
+        pacman.direction = 'left';
+    } else if (event.key === 'ArrowRight') {
+        pacman.direction = 'right';
+    }
+});
+
+/* funcion para mover a pacman */
 
 function movePacman() {
-    document.addEventListener('keydown', (event) => {
-        switch(event.key) {
-            case 'ArrowUp':
-                pacman.y -= pacman.speed;
-                break;
-            case 'ArrowDown':
-                pacman.y += pacman.speed;
-                break;
-            case 'ArrowLeft':
-                pacman.x -= pacman.speed;
-                break;
-            case 'ArrowRight':
-                pacman.x += pacman.speed;
-                break;
+    setInterval(() => { /* Mover a pacman continuamente */
+        if (pacman.direction === 'up') {
+            pacman.y -= pacman.speed;
+        } else if (pacman.direction === 'down') {
+            pacman.y += pacman.speed;
+        } else if (pacman.direction === 'left') {
+            pacman.x -= pacman.speed;
+        } else if (pacman.direction === 'right') {
+            pacman.x += pacman.speed;
         }
         
-        running = true;
-        updatePacmanPosition();
-    });
+        const PacmanElement = document.getElementById('pacman');
+        PacmanElement.style.left = pacman.x + 'px';
+        PacmanElement.style.top = pacman.y + 'px';
+    }, 30); /* Actualizar su posicion cada 30 ms */
 }
-
-function updatePacmanPosition() {
-    const PacmanElement = document.getElementById('pacman');
-    PacmanElement.style.left = pacman.x + 'px';
-    PacmanElement.style.top = pacman.y + 'px';
-}
-

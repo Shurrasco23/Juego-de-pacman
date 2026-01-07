@@ -127,6 +127,7 @@ function draw() {
     }
 }
 
+
 function loop(){
     draw();
     requestAnimationFrame(loop);
@@ -144,5 +145,3 @@ async function initGame() {
     movePacman();
     loop();
 }
-
-initGame();
