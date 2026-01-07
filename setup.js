@@ -125,6 +125,13 @@ function draw() {
             }
         }
     }
+
+    //Dibujar a Pacman
+    ctx.fillStyle = "yellow";
+    ctx.beginPath();
+    ctx.arc(pacman.x + TILE_SIZE / 2, pacman.y + TILE_SIZE / 2, TILE_SIZE / 2 - 2, 0, Math.PI * 2);
+    ctx.fill();
+
 }
 
 
