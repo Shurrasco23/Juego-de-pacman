@@ -9,18 +9,21 @@ const pacman = {
 
 const keys = {};
 
-/* Escuchar eventos de teclado */
+/* Escuchar clicks en las flechas de control */
+document.querySelector('.flecha-arriba').addEventListener('click', () => {
+    pacman.direction = 'up';
+});
 
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowUp') {
-        pacman.direction = 'up';
-    } else if (event.key === 'ArrowDown') {
-        pacman.direction = 'down';
-    } else if (event.key === 'ArrowLeft') {
-        pacman.direction = 'left';
-    } else if (event.key === 'ArrowRight') {
-        pacman.direction = 'right';
-    }
+document.querySelector('.flecha-abajo').addEventListener('click', () => {
+    pacman.direction = 'down';
+});
+
+document.querySelector('.flecha-izquierda').addEventListener('click', () => {
+    pacman.direction = 'left';
+});
+
+document.querySelector('.flecha-derecha').addEventListener('click', () => {
+    pacman.direction = 'right';
 });
 
 /* funcion para mover a pacman */
