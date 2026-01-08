@@ -40,6 +40,12 @@ const assets = {
 
 let gameMap = [];
 
+// Variable para controlar el tiempo del juego
+let gameTime = 0;
+
+// Variable para los puntos
+let gameScore = 0;
+
 function processMapData(text) {
     const lines = text.trim().split("\n");
     const rows = lines.length;
@@ -82,6 +88,11 @@ function processMapData(text) {
                     sx: coords.x * TILE_SIZE,
                     sy: coords.y * TILE_SIZE
                 };
+
+                // Generar pelotitas en todos los tiles caminables (excepto la posición inicial de Pacman)
+                if (!(x === 1 && y === 1)) {
+                    tile.item = ITEM_TYPE.DOT;
+                }
             }
             rowData.push(tile);
         }
@@ -97,6 +108,59 @@ function calculateBitmask(boolMap, x, y, cols, rows){
     if (x < cols - 1 && boolMap[y][x + 1]) value += 4;   // Este
     if (y < rows - 1 && boolMap[y + 1][x]) value += 8;   // Sur
     return value;
+}
+
+// Función para detectar colisiones con pelotitas
+function checkDotCollision() {
+    const tileX = Math.floor((pacman.x + TILE_SIZE / 2) / TILE_SIZE);
+    const tileY = Math.floor((pacman.y + TILE_SIZE / 2) / TILE_SIZE);
+
+    if (tileY >= 0 && tileY < gameMap.length && tileX >= 0 && tileX < gameMap[0].length) {
+        const tile = gameMap[tileY][tileX];
+        
+        if (tile.item === ITEM_TYPE.DOT) {
+            // Remover pelotita y aumentar puntos
+            tile.item = ITEM_TYPE.NONE;
+            gameScore += 50;
+            document.getElementsByClassName("puntos")[0].textContent = `Puntos: ${gameScore}`;
+        }
+        // Si no quedan pelotitas, recargar el mapa manteniendo la puntuación
+        if (dotsRemaining() === 0) {
+            // pequeñas pausas para evitar recargas múltiples rápidas
+            setTimeout(() => {
+                reloadMapKeepScore();
+            }, 200);
+        }
+    }
+}
+
+// Cuenta cuántas pelotitas (DOT) quedan en el mapa
+function dotsRemaining() {
+    let count = 0;
+    for (let y = 0; y < gameMap.length; y++) {
+        for (let x = 0; x < gameMap[y].length; x++) {
+            if (gameMap[y][x].item === ITEM_TYPE.DOT) count++;
+        }
+    }
+    return count;
+}
+
+// Recarga el mapa desde mapa.txt sin reiniciar la puntuación
+async function reloadMapKeepScore() {
+    const response = await fetch('mapa.txt');
+    const text = await response.text();
+    processMapData(text);
+
+    // Resetear posición de Pacman a la inicial (tile 1,1)
+    if (typeof pacman !== 'undefined') {
+        pacman.x = TILE_SIZE * 1;
+        pacman.y = TILE_SIZE * 1;
+        pacman.direction = { x: 0, y: 0 };
+        pacman.nextDirection = { x: 0, y: 0 };
+    }
+
+    // Actualizar la UI de puntos por si acaso
+    document.getElementsByClassName("puntos")[0].textContent = `Puntos: ${gameScore}`;
 }
 
 function draw() {
@@ -123,6 +187,14 @@ function draw() {
                 ctx.fillStyle = "#111144";
                 ctx.fillRect(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
+
+            // Dibujar pelotitas
+            if (tile.item === ITEM_TYPE.DOT) {
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.arc(x * TILE_SIZE + TILE_SIZE / 2, y * TILE_SIZE + TILE_SIZE / 2, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
     }
 
@@ -132,6 +204,8 @@ function draw() {
     ctx.arc(pacman.x + TILE_SIZE / 2, pacman.y + TILE_SIZE / 2, TILE_SIZE / 2 - 2, 0, Math.PI * 2);
     ctx.fill();
 
+    // Verificar colisiones con pelotitas
+    checkDotCollision();
 }
 
 
@@ -149,6 +223,22 @@ async function initGame() {
     const text = await response.text();
     processMapData(text);
 
+    tiempo ();
     movePacman();
     loop();
+}
+
+function tiempo() {
+
+    setInterval (() => {
+
+        gameTime++;
+        document.getElementsByClassName("tiempo")[0].textContent = `Tiempo: ${gameTime}s`;
+        
+    }, 1000);
+}
+
+function enemy() {
+
+
 }

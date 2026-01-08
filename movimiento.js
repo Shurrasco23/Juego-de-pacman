@@ -2,29 +2,69 @@
 const pacman = {
     x: 32,
     y: 32,
-    speed: 4,
-    direction: null,
+    speed: 3,
+    direction: { x: 0, y: 0 }, // Dirección actual
+    nextDirection: { x: 0, y: 0 }, // Próxima dirección solicitada
     width: 20,  // Ancho del hitbox
     height: 20  // Alto del hitbox
 }; /* Posision y velocidad inicial de Pacman, con direccion nula */
 
 const keys = {};
 
+// Direcciones disponibles
+const DIRECTIONS = {
+    UP: { x: 0, y: -1 },
+    DOWN: { x: 0, y: 1 },
+    LEFT: { x: -1, y: 0 },
+    RIGHT: { x: 1, y: 0 }
+};
+
 /* Escuchar clicks en las flechas de control */
 document.querySelector('.flecha-arriba').addEventListener('click', () => {
-    pacman.direction = 'up';
+    pacman.nextDirection = DIRECTIONS.UP;
 });
 
 document.querySelector('.flecha-abajo').addEventListener('click', () => {
-    pacman.direction = 'down';
+    pacman.nextDirection = DIRECTIONS.DOWN;
 });
 
 document.querySelector('.flecha-izquierda').addEventListener('click', () => {
-    pacman.direction = 'left';
+    pacman.nextDirection = DIRECTIONS.LEFT;
 });
 
 document.querySelector('.flecha-derecha').addEventListener('click', () => {
-    pacman.direction = 'right';
+    pacman.nextDirection = DIRECTIONS.RIGHT;
+});
+
+// Escuchar eventos de teclado 
+document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+        case 'ArrowUp':
+        case 'w':  
+        case 'W':
+            pacman.nextDirection = DIRECTIONS.UP;
+            e.preventDefault();
+            break;
+        case 'ArrowDown':
+        case 's':
+        case 'S':
+            pacman.nextDirection = DIRECTIONS.DOWN;
+            e.preventDefault();
+            break;
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+            pacman.nextDirection = DIRECTIONS.LEFT;
+            e.preventDefault();
+            break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+            pacman.nextDirection = DIRECTIONS.RIGHT;
+            e.preventDefault();
+            break;
+    }
+    // Compatibilidad AWSD y flechas para el movimiento
 });
 
 /* funcion para verificar si una posición es válida (dentro del laberinto) */
@@ -64,23 +104,29 @@ function isValidPosition(x, y) {
 /* funcion para mover a pacman */
 function movePacman() {
     setInterval(() => { /* Mover a pacman continuamente */
-        let newX = pacman.x;
-        let newY = pacman.y;
-        
-        if (pacman.direction === 'up') {
-            newY -= pacman.speed;
-        } else if (pacman.direction === 'down') {
-            newY += pacman.speed;
-        } else if (pacman.direction === 'left') {
-            newX -= pacman.speed;
-        } else if (pacman.direction === 'right') {
-            newX += pacman.speed;
+        // Primero intentar mover en la dirección solicitada
+        if (pacman.nextDirection.x !== 0 || pacman.nextDirection.y !== 0) {
+            let newX = pacman.x + (pacman.nextDirection.x * pacman.speed);
+            let newY = pacman.y + (pacman.nextDirection.y * pacman.speed);
+            
+            // Si la próxima dirección es válida, cambiar a ella
+            if (isValidPosition(newX, newY)) {
+                pacman.direction = pacman.nextDirection;
+                pacman.x = newX;
+                pacman.y = newY;
+            }
         }
         
-        // Validar la nueva posición antes de mover
-        if (isValidPosition(newX, newY)) {
-            pacman.x = newX;
-            pacman.y = newY;
+        // Si no podemos cambiar de dirección, intentar continuar en la dirección actual
+        if (pacman.direction.x !== 0 || pacman.direction.y !== 0) {
+            let newX = pacman.x + (pacman.direction.x * pacman.speed);
+            let newY = pacman.y + (pacman.direction.y * pacman.speed);
+            
+            // Validar la nueva posición antes de mover
+            if (isValidPosition(newX, newY)) {
+                pacman.x = newX;
+                pacman.y = newY;
+            }
         }
     }, 30); /* Actualizar su posicion cada 30 ms */
 }

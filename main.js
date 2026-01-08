@@ -13,16 +13,20 @@ function InitInputListeners() {
     document.addEventListener('keydown', (event) => {
         switch(event.key) {
             case 'ArrowUp':
-                nextDirection = DIR.UP;
+                pacman.nextDirection = DIRECTIONS.UP;
+                event.preventDefault();
                 break;
             case 'ArrowDown':
-                nextDirection = DIR.DOWN;
+                pacman.nextDirection = DIRECTIONS.DOWN;
+                event.preventDefault();
                 break;
             case 'ArrowLeft':
-                nextDirection = DIR.LEFT;
+                pacman.nextDirection = DIRECTIONS.LEFT;
+                event.preventDefault();
                 break;
             case 'ArrowRight':
-                nextDirection = DIR.RIGHT;
+                pacman.nextDirection = DIRECTIONS.RIGHT;
+                event.preventDefault();
                 break;
         }
     });
