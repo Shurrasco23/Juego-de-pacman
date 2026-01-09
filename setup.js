@@ -1,6 +1,8 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+let nivel = 0;
+
 const TILE_SIZE = 32;
 
 const ITEM_TYPE = {
@@ -130,6 +132,9 @@ function checkDotCollision() {
             setTimeout(() => {
                 reloadMapKeepScore();
             }, 200);
+
+            Niveles();
+            alert ("nivel completado");
         }
     }
 }
@@ -214,6 +219,7 @@ function draw() {
     // Verificar colisiones con pelotitas
     checkDotCollision();
 
+    // Verificar colision con fantasma
     checkGhostCollision();
 }
 
@@ -239,6 +245,7 @@ async function initGame() {
     loop();
 }
 
+// Contar el tiempo
 function tiempo() {
 
     setInterval (() => {
@@ -249,5 +256,28 @@ function tiempo() {
     }, 1000);
 }
 
-const fantasmaImg = new Image();
-fantasmaImg.src = "Imagenes/Fantasma-rosa.gif";
+// Sube de nivel, y reinicia el mapa
+function Niveles() {
+    
+    nivel++;
+    // Se reinicia el mapa
+    reloadMapKeepScore();
+
+    let nivelUI = document.getElementsByClassName("Nivel-actual")[0];
+    if (!nivelUI) {
+        nivelUI = document.createElement('div');
+        nivelUI.className = 'Nivel-actual';
+        nivelUI.style.marginTop = '10px';
+        nivelUI.style.fontWeight = 'bold';
+        document.getElementById('container-estadisticas').appendChild(nivelUI);
+    }
+
+    // Se muestra el nivel en pantalla
+    nivelUI.textContent = `Nivel: ${nivel}`;
+
+    // Velocidad del fantasma aumentada por cada 2 niveles
+    if (nivel%2==0){
+        ghost.speed += 0.4
+        alert("Velocidad del fantasma aumentada");
+    }
+}

@@ -7,7 +7,11 @@ const ghost = {
 };
 
 let pacmanLives = 3; //vidas de pacman
-let cantakedamage = true;
+let cantakedamage = true; // invulnerabilidad despues de un hit
+
+//Cargar la imagen del fantasma
+const fantasmaImg = new Image();
+fantasmaImg.src = "Imagenes/Fantasma-rosa.gif";
 
 function updateLivesUI() {
     document.getElementsByClassName("vidas")[0].textContent = `Vidas: ${pacmanLives}`;
@@ -40,21 +44,43 @@ function moveGhost() {
 
     // Cambia de dirección solo en intersecciones
     if (possibleDirs.length > 2 || Math.random() < 0.01) {
-        // Opcional: perseguir a Pacman si está cerca
-        let bestDir = possibleDirs[0];
-        let minDist = Infinity;
-        for (const dir of possibleDirs) {
-            const px = tileX + dir.x;
-            const py = tileY + dir.y;
-            const dist = Math.abs(px - Math.floor((pacman.x + TILE_SIZE / 2) / TILE_SIZE)) +
-                         Math.abs(py - Math.floor((pacman.y + TILE_SIZE / 2) / TILE_SIZE));
-            if (dist < minDist) {
-                minDist = dist;
-                bestDir = dir;
-            }
+        // Distancia Manhattan entre fantasma y Pacman
+        const pacmanTileX = Math.floor((pacman.x + TILE_SIZE / 2) / TILE_SIZE);
+        const pacmanTileY = Math.floor((pacman.y + TILE_SIZE / 2) / TILE_SIZE);
+        const distToPacman = Math.abs(tileX - pacmanTileX) + Math.abs(tileY - pacmanTileY);
 
+        // Si está cerca, persigue a Pacman
+        if (distToPacman <= 5) {
+            let bestDir = possibleDirs[0];
+            let minDist = Infinity;
+            for (const dir of possibleDirs) {
+                const px = tileX + dir.x;
+                const py = tileY + dir.y;
+                const dist = Math.abs(px - pacmanTileX) + Math.abs(py - pacmanTileY);
+                if (dist < minDist) {
+                    minDist = dist;
+                    bestDir = dir;
+                }
+            }
+            ghost.direction = bestDir;
+        } 
+        // esta lejos de pacman
+
+        else {
+            // Movimiento aleatorio inteligente: evitar retroceder y preferir seguir recto
+            let dirsSinRetroceso = possibleDirs.filter(dir =>
+                !(dir.x === -ghost.direction.x && dir.y === -ghost.direction.y)
+            );
+            // En caso de poder seguir recto, preferir esa direccion
+            let seguirRecto = possibleDirs.find(dir => dir.x === ghost.direction.x && dir.y === ghost.direction.y);
+            if (seguirRecto && Math.random() < 0.7) {
+                ghost.direction = seguirRecto;
+            } else if (dirsSinRetroceso.length > 0) {
+                ghost.direction = dirsSinRetroceso[Math.floor(Math.random() * dirsSinRetroceso.length)];
+            } else {
+                ghost.direction = possibleDirs[Math.floor(Math.random() * possibleDirs.length)];
+            }
         }
-        ghost.direction = bestDir;
     }
 
     // Mover el fantasma
@@ -73,6 +99,7 @@ function moveGhost() {
     }
 }
 
+// Colision fantasma-pacman
 function checkGhostCollision() {
     const pacmanTileX = Math.floor((pacman.x + TILE_SIZE / 2) / TILE_SIZE);
     const pacmanTileY = Math.floor((pacman.y + TILE_SIZE / 2) / TILE_SIZE);
@@ -81,6 +108,7 @@ function checkGhostCollision() {
 
     if (pacmanTileX === ghostTileX && pacmanTileY === ghostTileY && cantakedamage) {
         
+        alert ("Perdiste una vida");
         pacmanLives = pacmanLives - 1;
         cantakedamage = false; // Pacman es invulnerable tras el golpe
         setTimeout(() => {
@@ -89,7 +117,7 @@ function checkGhostCollision() {
 
         updateLivesUI();
         if (pacmanLives <= 0) {
-            alert("¡Game Over!");
+            alert("¡Juego terminado!");
             pacmanLives = 3;
             gameScore = 0;
             reloadMapKeepScore();
@@ -100,6 +128,9 @@ function checkGhostCollision() {
             pacman.y = TILE_SIZE * 1;
             ghost.x = TILE_SIZE * 5;
             ghost.y = TILE_SIZE * 5;
+
+            //resetear velocidad del fantasma 
+            ghost.speed = 1;
         }
     }
 }
