@@ -17,6 +17,18 @@
             <h1 class="titulo_juego"> Pacman </h1>
             <button id="boton_juego" class="boton_juego"> Jugar</button>
             <button id="boton_instrucciones" class="boton_instrucciones"> Instrucciones</button>
+            <button id="boton_scoreboard" class="boton_scoreboard"> Puntuaciones</button>
+        </div>
+    </div>
+
+    <div id="scoreboard" style="display: none"> <!-- Scoreboard -->
+        <div id="container_scoreboard">
+            <h1 class="titulo_scoreboard"> Top 10 Puntuaciones </h1>
+            <div id="scoreboard_list">
+                <!-- Las puntuaciones se cargarán aquí dinámicamente -->
+                <p class="loading_text">Cargando puntuaciones...</p>
+            </div>
+            <button id="boton_cerrar_scoreboard" class="boton_cerrar"> Volver al Menú</button>
         </div>
     </div>
 
@@ -43,24 +55,24 @@
             <div class="cruz-control">
                 <div class="fila-arriba">
                     <div class="flecha flecha-arriba">
-                        <img src="/Imagenes/flecha-arriba.png" height="100px">
+                        <img src="Imagenes/flecha-arriba.png" height="100px">
                     </div>
                 </div>
                     
                 <div class="fila-horizontal">
                     <div class="flecha flecha-izquierda">
-                        <img src="/Imagenes/flecha-izquierda.png" width="100px">
+                        <img src="Imagenes/flecha-izquierda.png" width="100px">
                     </div>
                     
                     <div class="flecha flecha-derecha">
-                        <img src="/Imagenes/flecha-derecha.png" width="100px">
+                        <img src="Imagenes/flecha-derecha.png" width="100px">
                     </div>
                     
                 </div>
 
                 <div class="fila-abajo">
                     <div class="flecha flecha-abajo">
-                        <img src="/Imagenes/flecha-abajo.png" height="100px">
+                        <img src="Imagenes/flecha-abajo.png" height="100px">
                     </div>
                 </div>
             </div>
@@ -68,11 +80,11 @@
     </div>
     </div>
 
-    <script src="setup.js"> </script> <!-- setup js-->
-    <script src="main.js"> </script> <!-- Main js-->
-    <script src="navegacion.js"> </script> <!-- Navegacion-->
-    <script src="movimiento.js"> </script> <!-- Movimiento-->
-    <script src="fantasma.js"> </script> <!-- fantasma-->
+    <script src="setup.js?v=2"> </script> <!-- setup js-->
+    <script src="main.js?v=2"> </script> <!-- Main js-->
+    <script src="navegacion.js?v=2"> </script> <!-- Navegacion-->
+    <script src="movimiento.js?v=2"> </script> <!-- Movimiento-->
+    <script src="fantasma.js?v=2"> </script> <!-- fantasma-->
 
 </body>
 
