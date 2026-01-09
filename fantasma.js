@@ -128,9 +128,23 @@ function checkGhostCollision() {
 
     if (pacmanTileX === ghostTileX && pacmanTileY === ghostTileY && cantakedamage) {
         
-        alert ("Perdiste una vida");
+        cantakedamage = false; // Inmediatamente desactivar para evitar colisiones múltiples
+        
         pacmanLives = pacmanLives - 1;
-        cantakedamage = false; // Pacman es invulnerable tras el golpe
+        updateLivesUI();
+        
+        // Resetear posiciones a inicio ANTES del alert
+        pacman.x = TILE_SIZE * 1;
+        pacman.y = TILE_SIZE * 1;
+        pacman.direction = { x: 0, y: 0 };
+        pacman.nextDirection = { x: 0, y: 0 };
+        
+        ghost.x = TILE_SIZE * 5;
+        ghost.y = TILE_SIZE * 5;
+        ghost.direction = { x: 1, y: 0 };
+        
+        alert ("Perdiste una vida");
+        
         setTimeout(() => {
             cantakedamage = true; // Vuelve a ser vulnerable después de 2 segundos
         }, 2000);
