@@ -114,8 +114,28 @@ function moveGhost() {
         ghost.x = newX;
         ghost.y = newY;
     } else {
-        // Si no puede moverse, detener
-        ghost.direction = { x: 0, y: 0 };
+        // Si no puede moverse, buscar una nueva dirección válida
+        const stuckTileX = Math.floor((ghost.x + TILE_SIZE / 2) / TILE_SIZE);
+        const stuckTileY = Math.floor((ghost.y + TILE_SIZE / 2) / TILE_SIZE);
+        let escapeDirs = [];
+        for (const dir of dirs) {
+            const nx = stuckTileX + dir.x;
+            const ny = stuckTileY + dir.y;
+            if (
+                ny >= 0 && ny < gameMap.length &&
+                nx >= 0 && nx < gameMap[0].length &&
+                gameMap[ny][nx].walkeable
+            ) {
+                escapeDirs.push(dir);
+            }
+        }
+        if (escapeDirs.length > 0) {
+            // Elegir una dirección aleatoria válida para salir del atasco
+            ghost.direction = escapeDirs[Math.floor(Math.random() * escapeDirs.length)];
+        } else {
+            // Si realmente no hay salida, quedarse quieto
+            ghost.direction = { x: 0, y: 0 };
+        }
     }
 }
 
