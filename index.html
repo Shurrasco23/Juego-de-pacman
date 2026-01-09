@@ -20,60 +20,39 @@
         </div>
     </div>
 
-    <div id="Juego", style="display: none"> <!-- Juego-->>
+    <div id="Juego", style="display: none">
         
         <div id="container_juego">
         
-        <h1 class="Mensaje-estadisticas"> Estadisticas de juego </h1> <!-- Container estadisticas--> 
+        <h1 class="Mensaje-estadisticas"> Estadisticas de juego </h1>   
             
-        <div id="container-estadisticas">
-            <div class="puntos"> Puntos: 0  </div> <!-- Puntos -->
-            <div class="vidas"> Vidas: 3 </div> <!-- Vidas-->
-            <div class="tiempo"> Tiempo: 0s </div> <!-- Tiempo-->
-        </div>
-
-        <canvas id="gameCanvas" width="480" height="480">
-            Tu navegador no soporta Canvas de HTML5. Por favor actualízalo.
-        </canvas>
-
-        <br>
-        
-        <div class="controles"> <!-- flechas-->
-            <div class="cruz-control">
-                <div class="fila-arriba">
-                    <div class="flecha flecha-arriba">
-                        <img src="/Imagenes/flecha-arriba.png" height="100px">
-                    </div>
-                </div>
-                    
-                <div class="fila-horizontal">
-                    <div class="flecha flecha-izquierda">
-                        <img src="/Imagenes/flecha-izquierda.png" width="100px">
-                    </div>
-                    
-                    <div class="flecha flecha-derecha">
-                        <img src="/Imagenes/flecha-derecha.png" width="100px">
-                    </div>
-                    
-                </div>
-
-                <div class="fila-abajo">
-                    <div class="flecha flecha-abajo">
-                        <img src="/Imagenes/flecha-abajo.png" height="100px">
-                    </div>
-                </div>
+            <div id="container-estadisticas">
+                <div class="points"> Points: 0  </div> 
+                <div class="lives"> Lives: 3 </div> 
+                <div class="time"> Time: 0s </div>
             </div>
-        </div> 
-    </div>
+
+            <canvas id="gameCanvas" width="480" height="480">
+                Tu navegador no soporta Canvas de HTML5. Por favor actualízalo.
+            </canvas>
+           <br>
+            <div class="controls">
+                
+                <div class="flechas-horizontales"> 
+                    <img src="/Imagenes/Screenshot_from_2025-12-08_23-02-34-removebg-preview.png" height="165px">
+                </div>
+
+                <div class="flechas-verticales">
+                    <img src="/Imagenes/Screenshot_from_2025-12-08_22-48-53-removebg-preview.png" width="300px">
+                </div>
+
+            </div>
+        </div>
+    
     </div>
 
-    <script src="setup.js"> </script> <!-- setup js-->
-    <script src="main.js"> </script> <!-- Main js-->
-    <script src="navegacion.js"> </script> <!-- Navegacion-->
-    <script src="movimiento.js"> </script> <!-- Movimiento-->
+    <script src="src/main.js" type="module"></script> <!-- Main js-->
 
 </body>
 
 </html>
-
- 

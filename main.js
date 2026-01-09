@@ -11,6 +11,7 @@ let nextDirection = DIR.NONE;
 
 function InitInputListeners() {
     document.addEventListener('keydown', (event) => {
+        if (window.__refactor_active) return;
         switch(event.key) {
             case 'ArrowUp':
                 pacman.nextDirection = DIRECTIONS.UP;

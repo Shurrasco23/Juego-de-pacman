@@ -1,3 +1,4 @@
+
 /* Cleaned and translated CSS (English selectors for HUD and controls) */
 
 html, body {
@@ -80,17 +81,8 @@ body{
     align-items: center;
 }
 
-#pacman { width: 20px; height: 20px; background-color: yellow; border-radius: 50%; position: absolute; z-index: 10; }
-
 canvas { background-color: #000; border: 4px solid blue; box-shadow: 0 0 20px rgba(0, 0, 255, 0.5); }
 
 .controls { margin-top: 50px; display: flex; justify-content: center; }
-.cruz-control { display: grid; grid-template-columns: repeat(3, 70px); grid-template-rows: repeat(3, 70px); gap: 50px; }
-.fila-arriba { grid-column: 2; grid-row: 1; display: flex; justify-content: center; align-items: center; }
-.fila-horizontal { grid-column: 1 / 4; grid-row: 2; display: flex; justify-content: space-around; align-items: center; }
-.fila-abajo { grid-column: 2; grid-row: 3; display: flex; justify-content: center; align-items: center; }
-.flecha { display: flex; justify-content: center; align-items: center; cursor: pointer; background-color: rgba(0, 0, 0, 0.5); border: 2px solid blue; border-radius: 8px; padding: 8px; transition: all 0.2s ease; }
-.flecha:hover { background-color: rgba(0, 0, 255, 0.3); transform: scale(1.1); }
 
-#pacman { background-image: url("../Imagenes/Pacman-fondo.gif"); }
 

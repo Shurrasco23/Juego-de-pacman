@@ -20,24 +20,18 @@ const DIRECTIONS = {
 };
 
 /* Escuchar clicks en las flechas de control */
-document.querySelector('.flecha-arriba').addEventListener('click', () => {
-    pacman.nextDirection = DIRECTIONS.UP;
-});
-
-document.querySelector('.flecha-abajo').addEventListener('click', () => {
-    pacman.nextDirection = DIRECTIONS.DOWN;
-});
-
-document.querySelector('.flecha-izquierda').addEventListener('click', () => {
-    pacman.nextDirection = DIRECTIONS.LEFT;
-});
-
-document.querySelector('.flecha-derecha').addEventListener('click', () => {
-    pacman.nextDirection = DIRECTIONS.RIGHT;
-});
+const fa = document.querySelector('.flecha-arriba');
+if (fa) fa.addEventListener('click', (e) => { if (window.__refactor_active) return; pacman.nextDirection = DIRECTIONS.UP; });
+const fb = document.querySelector('.flecha-abajo');
+if (fb) fb.addEventListener('click', (e) => { if (window.__refactor_active) return; pacman.nextDirection = DIRECTIONS.DOWN; });
+const fl = document.querySelector('.flecha-izquierda');
+if (fl) fl.addEventListener('click', (e) => { if (window.__refactor_active) return; pacman.nextDirection = DIRECTIONS.LEFT; });
+const fr = document.querySelector('.flecha-derecha');
+if (fr) fr.addEventListener('click', (e) => { if (window.__refactor_active) return; pacman.nextDirection = DIRECTIONS.RIGHT; });
 
 // Escuchar eventos de teclado 
 document.addEventListener('keydown', (e) => {
+    if (window.__refactor_active) return;
     switch (e.key) {
         case 'ArrowUp':
         case 'w':  

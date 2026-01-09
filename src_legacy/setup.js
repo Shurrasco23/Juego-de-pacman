@@ -122,7 +122,7 @@ function checkDotCollision() {
             // Remover pelotita y aumentar puntos
             tile.item = ITEM_TYPE.NONE;
             gameScore += 50;
-            document.getElementsByClassName("puntos")[0].textContent = `Puntos: ${gameScore}`;
+            document.getElementsByClassName("points")[0].textContent = `Points: ${gameScore}`;
         }
         // Si no quedan pelotitas, recargar el mapa manteniendo la puntuación
         if (dotsRemaining() === 0) {
@@ -160,7 +160,7 @@ async function reloadMapKeepScore() {
     }
 
     // Actualizar la UI de puntos por si acaso
-    document.getElementsByClassName("puntos")[0].textContent = `Puntos: ${gameScore}`;
+    document.getElementsByClassName("points")[0].textContent = `Points: ${gameScore}`;
 }
 
 function draw() {
@@ -215,7 +215,7 @@ function loop(){
 }
 
 async function initGame() {
-    assets.spritesheet.src = "Imagenes/mazeSpritesheet.png"
+    assets.spritesheet.src = "Imagenes/pacman-juego.gif"
 
     await new Promise(resolve => assets.spritesheet.onload = resolve);
 
@@ -233,7 +233,7 @@ function tiempo() {
     setInterval (() => {
 
         gameTime++;
-        document.getElementsByClassName("tiempo")[0].textContent = `Tiempo: ${gameTime}s`;
+        document.getElementsByClassName("time")[0].textContent = `Time: ${gameTime}s`;
         
     }, 1000);
 }
