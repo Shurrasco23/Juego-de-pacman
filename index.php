@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div id="Juego", style="display: none"> <!-- Juego-->>
+    <div id="Juego", style="display: none"> <!-- Juego-->
         
         <div id="container_juego">
         
