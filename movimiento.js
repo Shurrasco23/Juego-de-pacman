@@ -67,43 +67,10 @@ document.addEventListener('keydown', (e) => {
     // Compatibilidad AWSD y flechas para el movimiento
 });
 
-/* funcion para verificar si una posición es válida (dentro del laberinto) */
-
-function isValidPosition(x, y) {
-    // Usar el hitbox: verificar 4 esquinas del hitbox de Pacman
-    const hitboxOffsetX = (TILE_SIZE - pacman.width) / 2;
-    const hitboxOffsetY = (TILE_SIZE - pacman.height) / 2;
-    
-    // Esquinas del hitbox
-    const corners = [
-        { px: x + hitboxOffsetX, py: y + hitboxOffsetY }, // Arriba-izquierda
-        { px: x + hitboxOffsetX + pacman.width, py: y + hitboxOffsetY }, // Arriba-derecha
-        { px: x + hitboxOffsetX, py: y + hitboxOffsetY + pacman.height }, // Abajo-izquierda
-        { px: x + hitboxOffsetX + pacman.width, py: y + hitboxOffsetY + pacman.height } // Abajo-derecha
-    ];
-    
-    // Verificar todas las esquinas
-    for (let corner of corners) {
-        const tileX = Math.floor(corner.px / TILE_SIZE);
-        const tileY = Math.floor(corner.py / TILE_SIZE);
-        
-        // Verificar que esté dentro del mapa
-        if (tileX < 0 || tileY < 0 || tileY >= gameMap.length || tileX >= gameMap[0].length) {
-            return false;
-        }
-        
-        // Verificar que el tile sea caminable
-        if (!gameMap[tileY][tileX].walkeable) {
-            return false;
-        }
-    }
-    
-    return true;
-}
-
 /* funcion para mover a pacman */
 function movePacman() {
     setInterval(() => { /* Mover a pacman continuamente */
+        
         // Calcular la posición del centro de Pacman
         const centerX = pacman.x + TILE_SIZE / 2;
         const centerY = pacman.y + TILE_SIZE / 2;
@@ -181,4 +148,38 @@ function movePacman() {
             }
         }
     }, 30); /* Actualizar su posicion cada 30 ms */
+}
+
+/* funcion para verificar si una posición es válida (dentro del laberinto) */
+
+function isValidPosition(x, y) {
+    // Usar el hitbox: verificar 4 esquinas del hitbox de Pacman
+    const hitboxOffsetX = (TILE_SIZE - pacman.width) / 2;
+    const hitboxOffsetY = (TILE_SIZE - pacman.height) / 2;
+    
+    // Esquinas del hitbox
+    const corners = [
+        { px: x + hitboxOffsetX, py: y + hitboxOffsetY }, // Arriba-izquierda
+        { px: x + hitboxOffsetX + pacman.width, py: y + hitboxOffsetY }, // Arriba-derecha
+        { px: x + hitboxOffsetX, py: y + hitboxOffsetY + pacman.height }, // Abajo-izquierda
+        { px: x + hitboxOffsetX + pacman.width, py: y + hitboxOffsetY + pacman.height } // Abajo-derecha
+    ];
+    
+    // Verificar todas las esquinas
+    for (let corner of corners) {
+        const tileX = Math.floor(corner.px / TILE_SIZE);
+        const tileY = Math.floor(corner.py / TILE_SIZE);
+        
+        // Verificar que esté dentro del mapa
+        if (tileX < 0 || tileY < 0 || tileY >= gameMap.length || tileX >= gameMap[0].length) {
+            return false;
+        }
+        
+        // Verificar que el tile sea caminable
+        if (!gameMap[tileY][tileX].walkeable) {
+            return false;
+        }
+    }
+    
+    return true;
 }
