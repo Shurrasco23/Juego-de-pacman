@@ -115,23 +115,47 @@ function checkGhostCollision() {
             cantakedamage = true; // Vuelve a ser vulnerable después de 2 segundos
         }, 2000);
 
-        updateLivesUI();
         if (pacmanLives <= 0) {
-            alert("¡Juego terminado!");
+            // Save score to database
+            const playerName = prompt("¡Juego terminado! Puntuación: " + gameScore + "\nIngresa tu nombre:", "Jugador");
+            if (playerName && playerName.trim() !== "") {
+                saveScoreToDatabase(playerName, gameScore);
+            }
+            
+            // Reset game
             pacmanLives = 3;
             gameScore = 0;
+            nivel = 0;
+            gameTime = 0;
             reloadMapKeepScore();
             updateLivesUI();
-
-            // Resetear posición de Pacman y fantasma
-            pacman.x = TILE_SIZE * 1;
-            pacman.y = TILE_SIZE * 1;
-            ghost.x = TILE_SIZE * 5;
-            ghost.y = TILE_SIZE * 5;
-
-            //resetear velocidad del fantasma 
-            ghost.speed = 1;
         }
     }
 }
 
+function saveScoreToDatabase(playerName, score) {
+    fetch('api/save_score.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            player_name: playerName,
+            final_score: score
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('✓ Score saved successfully!', data);
+            alert('¡Puntuación guardada!');
+        } else {
+            console.error('Error saving score:', data.error);
+            alert('Error al guardar la puntuación');
+        }
+    })
+    .catch(error => {
+        console.error('Network error:', error);
+        alert('Error de conexión al guardar');
+    });
+}

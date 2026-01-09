@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS pacman_db;
+USE pacman_db;
+
+CREATE TABLE IF NOT EXISTS scores (
+    player_id INT AUTO_INCREMENT PRIMARY KEY,
+    player_name VARCHAR(50) NOT NULL,
+    final_score INT(11) NOT NULL,
+    score_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
+);
