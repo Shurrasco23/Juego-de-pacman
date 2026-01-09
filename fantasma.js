@@ -18,9 +18,20 @@ function updateLivesUI() {
 }
 
 function moveGhost() {
-    // Detectar intersección (puede moverse en más de una dirección)
-    const tileX = Math.floor((ghost.x + TILE_SIZE / 2) / TILE_SIZE);
-    const tileY = Math.floor((ghost.y + TILE_SIZE / 2) / TILE_SIZE);
+    // Calcular posición actual en tiles
+    const centerX = ghost.x + TILE_SIZE / 2;
+    const centerY = ghost.y + TILE_SIZE / 2;
+    const tileX = Math.floor(centerX / TILE_SIZE);
+    const tileY = Math.floor(centerY / TILE_SIZE);
+    
+    // Centro del tile actual
+    const tileCenterX = tileX * TILE_SIZE;
+    const tileCenterY = tileY * TILE_SIZE;
+    
+    // Distancia al centro
+    const distToCenterX = Math.abs(ghost.x - tileCenterX);
+    const distToCenterY = Math.abs(ghost.y - tileCenterY);
+    const snapThreshold = ghost.speed + 2;
 
     let possibleDirs = [];
     const dirs = [
@@ -42,8 +53,10 @@ function moveGhost() {
         }
     }
 
-    // Cambia de dirección solo en intersecciones
-    if (possibleDirs.length > 2 || Math.random() < 0.01) {
+    // Cambia de dirección solo cuando está cerca del centro del tile
+    const nearCenter = distToCenterX <= snapThreshold && distToCenterY <= snapThreshold;
+    
+    if (nearCenter && (possibleDirs.length > 2 || Math.random() < 0.02)) {
         // Distancia Manhattan entre fantasma y Pacman
         const pacmanTileX = Math.floor((pacman.x + TILE_SIZE / 2) / TILE_SIZE);
         const pacmanTileY = Math.floor((pacman.y + TILE_SIZE / 2) / TILE_SIZE);
@@ -62,22 +75,26 @@ function moveGhost() {
                     bestDir = dir;
                 }
             }
+            // Snap al centro antes de cambiar dirección
+            ghost.x = tileCenterX;
+            ghost.y = tileCenterY;
             ghost.direction = bestDir;
-        } 
-        // esta lejos de pacman
-
-        else {
+        } else {
             // Movimiento aleatorio inteligente: evitar retroceder y preferir seguir recto
             let dirsSinRetroceso = possibleDirs.filter(dir =>
                 !(dir.x === -ghost.direction.x && dir.y === -ghost.direction.y)
             );
-            // En caso de poder seguir recto, preferir esa direccion
             let seguirRecto = possibleDirs.find(dir => dir.x === ghost.direction.x && dir.y === ghost.direction.y);
             if (seguirRecto && Math.random() < 0.7) {
                 ghost.direction = seguirRecto;
             } else if (dirsSinRetroceso.length > 0) {
+                // Snap al centro antes de cambiar dirección
+                ghost.x = tileCenterX;
+                ghost.y = tileCenterY;
                 ghost.direction = dirsSinRetroceso[Math.floor(Math.random() * dirsSinRetroceso.length)];
             } else {
+                ghost.x = tileCenterX;
+                ghost.y = tileCenterY;
                 ghost.direction = possibleDirs[Math.floor(Math.random() * possibleDirs.length)];
             }
         }
@@ -96,6 +113,9 @@ function moveGhost() {
     ) {
         ghost.x = newX;
         ghost.y = newY;
+    } else {
+        // Si no puede moverse, detener
+        ghost.direction = { x: 0, y: 0 };
     }
 }
 

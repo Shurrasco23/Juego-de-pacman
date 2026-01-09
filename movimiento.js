@@ -104,20 +104,69 @@ function isValidPosition(x, y) {
 /* funcion para mover a pacman */
 function movePacman() {
     setInterval(() => { /* Mover a pacman continuamente */
+        // Calcular la posición del centro de Pacman
+        const centerX = pacman.x + TILE_SIZE / 2;
+        const centerY = pacman.y + TILE_SIZE / 2;
+        
+        // Calcular el tile actual
+        const currentTileX = Math.floor(centerX / TILE_SIZE);
+        const currentTileY = Math.floor(centerY / TILE_SIZE);
+        
+        // Calcular el centro exacto del tile actual
+        const tileCenterX = currentTileX * TILE_SIZE;
+        const tileCenterY = currentTileY * TILE_SIZE;
+        
+        // Distancia al centro del tile (en pixeles)
+        const distToCenterX = Math.abs(pacman.x - tileCenterX);
+        const distToCenterY = Math.abs(pacman.y - tileCenterY);
+        
+        // Umbral para considerar que estamos "cerca del centro"
+        const snapThreshold = pacman.speed + 2;
+        
         // Primero intentar mover en la dirección solicitada
         if (pacman.nextDirection.x !== 0 || pacman.nextDirection.y !== 0) {
-            let newX = pacman.x + (pacman.nextDirection.x * pacman.speed);
-            let newY = pacman.y + (pacman.nextDirection.y * pacman.speed);
+            // Verificar si estamos cerca del centro del tile
+            const nearCenterX = distToCenterX <= snapThreshold;
+            const nearCenterY = distToCenterY <= snapThreshold;
             
-            // Si la próxima dirección es válida, cambiar a ella
-            if (isValidPosition(newX, newY)) {
-                pacman.direction = pacman.nextDirection;
-                pacman.x = newX;
-                pacman.y = newY;
+            // Determinar si debemos verificar el cambio de dirección
+            let canTurn = false;
+            
+            if (pacman.nextDirection.x !== 0 && nearCenterY) {
+                // Quiere moverse horizontalmente, debe estar centrado verticalmente
+                canTurn = true;
+            } else if (pacman.nextDirection.y !== 0 && nearCenterX) {
+                // Quiere moverse verticalmente, debe estar centrado horizontalmente
+                canTurn = true;
+            }
+            
+            if (canTurn) {
+                // Verificar si el tile destino es caminable ANTES de intentar moverse
+                const nextTileX = currentTileX + pacman.nextDirection.x;
+                const nextTileY = currentTileY + pacman.nextDirection.y;
+                
+                // Verificar que el tile destino existe y es caminable
+                const isNextTileValid = nextTileY >= 0 && nextTileY < gameMap.length &&
+                                       nextTileX >= 0 && nextTileX < gameMap[0].length &&
+                                       gameMap[nextTileY][nextTileX].walkeable;
+                
+                if (isNextTileValid) {
+                    // Snap al centro del tile en el eje perpendicular
+                    if (pacman.nextDirection.x !== 0) {
+                        pacman.y = tileCenterY; // Centrar verticalmente
+                    } else {
+                        pacman.x = tileCenterX; // Centrar horizontalmente
+                    }
+                    
+                    pacman.direction = pacman.nextDirection;
+                } else {
+                    // Dirección inválida, limpiar nextDirection
+                    pacman.nextDirection = { x: 0, y: 0 };
+                }
             }
         }
         
-        // Si no podemos cambiar de dirección, intentar continuar en la dirección actual
+        // Continuar moviendo en la dirección actual (siempre)
         if (pacman.direction.x !== 0 || pacman.direction.y !== 0) {
             let newX = pacman.x + (pacman.direction.x * pacman.speed);
             let newY = pacman.y + (pacman.direction.y * pacman.speed);
@@ -126,6 +175,9 @@ function movePacman() {
             if (isValidPosition(newX, newY)) {
                 pacman.x = newX;
                 pacman.y = newY;
+            } else {
+                // Si chocamos con una pared, detener el movimiento
+                pacman.direction = { x: 0, y: 0 };
             }
         }
     }, 30); /* Actualizar su posicion cada 30 ms */
