@@ -46,7 +46,7 @@ function loadScoreboard() {
     const scoreboardList = document.getElementById("scoreboard_list");
     scoreboardList.innerHTML = '<p class="loading_text">Cargando puntuaciones...</p>';
     
-    zfetch('api/get_scores.php')
+    fetch('api/get_scores.php')
         .then(response => response.json())
         .then(data => {
             if (data.success && data.scores.length > 0) {
